@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import asyncio
 
 import discord
@@ -61,7 +63,7 @@ class CanvasClient(discord.Client):
                     if not any(access_restrictions):
                         for channel in channels:
                             if course.course_id in self.channels[channel.id]:
-                                await channel.send("***Ny fil lastet opp:\n{}***\n{}".format(name, url))
+                                await channel.send("***Ny fil lastet opp {}:\n{}***\n{}".format(course.course.attributes["name"], name, url))
             self.files[course.course_id] = new_files
 
     async def check_announcements(self, courses, channels):
@@ -78,7 +80,7 @@ class CanvasClient(discord.Client):
                     url = a.attributes["url"]
                     for channel in channels:
                         if course.course_id in self.channels[channel.id]:
-                            await channel.send("***Ny kunngjøring i Canvas:\n{}***\n{}\n{}".format(url, title, content))
+                            await channel.send("***Ny kunngjøring {}:\n{}***\n{}\n{}".format(course.course.attributes["name"], url, title, content))
             self.announcements[course.course_id] = new_a
 
 if __name__ == "__main__":
