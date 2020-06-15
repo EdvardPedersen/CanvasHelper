@@ -32,17 +32,17 @@ class CanvasClient(discord.Client):
         print("Connected to {}".format(client.guilds))
 
     async def on_message(self, message):
-        if message.content.startswith("!hjelp"):
-            await message.channel.send("***Kommandoer:***\n!hjelp - denne teksten\n!kalender - kurskalender\n!forelesning - forelesningstimeplan\n!gruppetimer - timeplan for kollokvier")
-        elif message.content.startswith("!kalender"):
+        if message.content.startswith(config.LANG["helpcommand"]):
+            await message.channel.send(config.LANG["helptext"])
+        elif message.content.startswith(config.LANG["calendarcommand"]):
             courses = self.channels[message.channel.id]
             for course in courses:
                 await message.channel.send(self.calendars[course].get_weekly_calendar())
-        elif message.content.startswith("!forelesning"):
+        elif message.content.startswith(config.LANG["lecturecommand"]):
             courses = self.channels[message.channel.id]
             for course in courses:
                 await message.channel.send(self.calendars[course].get_weekly_calendar(restrict = "lecture"))
-        elif message.content.startswith("!gruppetimer"):
+        elif message.content.startswith(config.LANG["groupcommand"]):
             courses = self.channels[message.channel.id]
             for course in courses:
                 await message.channel.send(self.calendars[course].get_weekly_calendar(restrict = "group"))
@@ -93,7 +93,7 @@ class CanvasClient(discord.Client):
                     if not any(access_restrictions):
                         for channel in channels:
                             if course.course_id in self.channels[channel.id]:
-                                await channel.send("***Ny fil lastet opp {}:\n{}***\n{}".format(course.course.attributes["name"], name, url))
+                                await channel.send(config.LANG["fileuploadtext"].format(course.course.attributes["name"], name, url))
             self.files[course.course_id] = new_files
 
     async def check_announcements(self, courses, channels):
@@ -110,7 +110,7 @@ class CanvasClient(discord.Client):
                     url = a.attributes["url"]
                     for channel in channels:
                         if course.course_id in self.channels[channel.id]:
-                            await channel.send("***Ny kunngjøring {}:\n{}***\n{}\n{}".format(course.course.attributes["name"], url, title, content))
+                            await channel.send(config.LANG["announcementtext"].format(course.course.attributes["name"], url, title, content))
             self.announcements[course.course_id] = new_a
 
 if __name__ == "__main__":

@@ -1,3 +1,7 @@
+import localization
+
+LANG = localization.LOCALE_NO
+
 # File that contains the Discord token
 DISCORD_TOKEN_FILE="discord-token"
 

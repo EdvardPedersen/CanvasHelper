@@ -1,6 +1,7 @@
 import urllib.request
 from datetime import date, datetime, timezone
 import ics
+import config
 
 class CourseCalendar():
     def __init__(self, course_name):
@@ -44,9 +45,9 @@ class CourseCalendar():
                 events_for_cal.append(event)
 
         events_for_cal.sort(key = lambda x: x.begin)
-        output = "***Kalender for uke {} - {}***:\n```".format(week, self.course_name)
-        output += "Dag     | Tid   | Beskrivelse\n"
-        weekdays = ["Mandag ", "Tirsdag", "Onsdag ", "Torsdag", "Fredag ", "Lørdag ", "Søndag "]
+        output = config.LANG["calendartext"].format(week, self.course_name)
+        output += config.LANG["calendarheader"]
+        weekdays = config.LANG["weekdays"]
         for event in events_for_cal:
             temp_output = "{} | {} | {} - {} \n".format(weekdays[event.begin.weekday()], event.begin.strftime("%H:%M"), event.description, event.location)
             if not restrict:
