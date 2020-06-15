@@ -7,6 +7,7 @@ CANVAS_TOKEN_FILE="canvas-token"
 
 # Update interval in seconds (int)
 CANVAS_UPDATE_INTERVAL=60
+CALENDAR_UPDATE_INTERVAL=60
 
 CANVAS_URL="https://uit.instructure.com"
 
@@ -14,4 +15,9 @@ CANVAS_URL="https://uit.instructure.com"
 # Each channel can have multiple courses
 CHANNEL_COURSES={
         720563491194535959: ["3076"]
+        }
+
+# Names for courses as used in uit.timeplan.no
+COURSE_NAMES = {
+        "3076": "INF-1400-1"
         }

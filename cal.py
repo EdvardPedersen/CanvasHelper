@@ -30,8 +30,38 @@ class CourseCalendar():
     def delta_to_seconds(self,delta):
         return delta.total_seconds()
 
+    def get_weekly_calendar(self, restrict=None):
+        #now = datetime.now()
+        now = datetime.fromisoformat('2020-02-04 12:00:00.000+00:00')
+        week = now.strftime("%W")
+        if now.weekday() > 4:
+            week = str(int(week) + 1)
+
+        events_for_cal = []
+        for event in self.calendar.events:
+            eventweek = event.begin.strftime("%W")
+            if eventweek == week:
+                events_for_cal.append(event)
+
+        events_for_cal.sort(key = lambda x: x.begin)
+        output = "***Kalender for uke {} - {}***:\n```".format(week, self.course_name)
+        output += "Dag     | Tid   | Beskrivelse\n"
+        weekdays = ["Mandag ", "Tirsdag", "Onsdag ", "Torsdag", "Fredag ", "Lørdag ", "Søndag "]
+        for event in events_for_cal:
+            temp_output = "{} | {} | {} - {} \n".format(weekdays[event.begin.weekday()], event.begin.strftime("%H:%M"), event.description, event.location)
+            if not restrict:
+                output += temp_output
+            elif restrict == "lecture":
+                if "Forelesning" in event.description:
+                    output += temp_output
+            elif restrict == "group":
+                if not "Forelesning" in event.description:
+                    output += temp_output
+        output += "```"
+        return output.replace("&nbsp;Opptak", "(Opptak)")
 
 
 if __name__ == "__main__":
     c = CourseCalendar("INF-1400-1")
     c.get_upcoming_events(20)
+    print(c.get_weekly_calendar())
