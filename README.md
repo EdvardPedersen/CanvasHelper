@@ -4,9 +4,10 @@ The bot supports subscribing to multiple courses in multiple channels.
 
 # Dependencies
 
-canvas
+canvasapi
 discord.py
 html2text
+ics
 
 # How to use
 
