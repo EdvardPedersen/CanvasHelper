@@ -18,10 +18,11 @@ CANVAS_URL="https://uit.instructure.com"
 # Relation between discord channels and courses
 # Each channel can have multiple courses
 CHANNEL_COURSES={
-        720563491194535959: ["3076"]
+        742657261347799103: ["18522"]
+        610855182539948052: ["18522"]
         }
 
-# Names for courses as used in uit.timeplan.no
+# Names for courses as used in timeplan.uit.no
 COURSE_NAMES = {
-        "3076": "INF-1400-1"
+        "18522": "INF-1049-1"
         }
