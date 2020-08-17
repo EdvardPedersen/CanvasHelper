@@ -32,7 +32,7 @@ class CourseCalendar():
 
     def get_weekly_calendar(self, restrict=None):
         now = datetime.now()
-        week = now.strftime("%W")
+        week = now.strftime("%V")
         if now.weekday() > 4:
             week = str(int(week) + 1)
 
