@@ -20,8 +20,7 @@ class CourseCalendar():
 
     def get_upcoming_events(self, hours_ahead):
         seconds = hours_ahead * 3600
-        #time_now = datetime.now(tz=timezone.utc)
-        time_now = datetime.fromisoformat('2020-01-15 12:00:00.000+00:00')
+        time_now = datetime.now(tz=timezone.utc)
         for event in self.calendar.events:
             delta_time = event.begin - time_now
             if delta_time.total_seconds() < seconds:
@@ -32,8 +31,7 @@ class CourseCalendar():
         return delta.total_seconds()
 
     def get_weekly_calendar(self, restrict=None):
-        #now = datetime.now()
-        now = datetime.fromisoformat('2020-02-04 12:00:00.000+00:00')
+        now = datetime.now()
         week = now.strftime("%W")
         if now.weekday() > 4:
             week = str(int(week) + 1)
@@ -63,6 +61,6 @@ class CourseCalendar():
 
 
 if __name__ == "__main__":
-    c = CourseCalendar("INF-1400-1")
+    c = CourseCalendar("INF-1049-1")
     c.get_upcoming_events(20)
     print(c.get_weekly_calendar())
