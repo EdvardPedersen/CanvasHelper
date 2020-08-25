@@ -38,7 +38,7 @@ class CourseCalendar():
 
         events_for_cal = []
         for event in self.calendar.events:
-            eventweek = event.begin.strftime("%W")
+            eventweek = event.begin.strftime("%V")
             if eventweek == week:
                 events_for_cal.append(event)
 
