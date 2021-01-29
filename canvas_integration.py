@@ -29,7 +29,7 @@ class CanvasIntegration:
         course_text = "course_{}".format(self.course_id)
         start = "2000-01-01"
         end = "2100-01-01"
-        ann = self.canvas.get_announcements(context_codes=course_text,
+        ann = self.canvas.get_announcements(context_codes=[course_text],
                                             start_date=start,
                                             end_date=end)
         return [f for f in ann]

@@ -18,13 +18,15 @@ CANVAS_URL="https://uit.instructure.com"
 # Relation between discord channels and courses
 # Each channel can have multiple courses
 CHANNEL_COURSES={
-        742657261347799103: ["18522"],
-        610855182539948052: ["18522"],
-        743048800532299781: ["18524"]
+        781144324263116824: ["21176"],
+        804666124121538591: ["21176"]
         }
 
 # Names for courses as used in timeplan.uit.no
 COURSE_NAMES = {
-        "18522": "INF-1049-1",
-        "18524": "INF-1100-1"
+        "21176": "INF-1400-1"
+        }
+
+COURSE_SEMESTER_PLAN = {
+        "21176": "https://raw.githubusercontent.com/uit-inf-1400-2021/uit-inf-1400-2021.github.io/main/semesterplan.md"
         }

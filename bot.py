@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 import asyncio
+import urllib.request
+import datetime
+import re
 
 import discord
 import html2text
@@ -32,6 +35,8 @@ class CanvasClient(discord.Client):
         print("Connected to {}".format(client.guilds))
 
     async def on_message(self, message):
+        if message.channel.id not in self.channels:
+            return
         if message.content.startswith(config.LANG["helpcommand"]):
             await message.channel.send(config.LANG["helptext"])
         elif message.content.startswith(config.LANG["calendarcommand"]):
@@ -46,6 +51,34 @@ class CanvasClient(discord.Client):
             courses = self.channels[message.channel.id]
             for course in courses:
                 await message.channel.send(self.calendars[course].get_weekly_calendar(restrict = "group"))
+        elif message.content.startswith(config.LANG["plancommand"]):
+            courses = self.channels[message.channel.id]
+            for course in courses:
+                await message.channel.send(self.get_semester_plan(course))
+
+    def get_semester_plan(self, course):
+        now = datetime.datetime.now()
+        week = int(now.strftime("%V"))
+
+        content = urllib.request.urlopen(config.COURSE_SEMESTER_PLAN[course]).read().decode()
+        current_week = 0
+        selected = ["```"]
+        for line in content.split("\n"):
+            if line.startswith("|"):
+                match = re.search("w(\s*)[0-9]*", line)
+                if match is not None:
+                    weeknum = match.group(0).split()[-1]
+                    try:
+                        int(weeknum)
+                    except ValueError:
+                        continue
+                    current_week = int(weeknum)
+                if week <= current_week <= week + 1:
+                    l = line.split("|")
+                    selected.append(f"{l[2]} | {l[3]}")
+        selected.append("```")
+        return "\n".join(selected)
+
 
 
     async def check_canvas(self):
@@ -116,4 +149,5 @@ class CanvasClient(discord.Client):
 if __name__ == "__main__":
     token = canvas_integration.get_token(config.DISCORD_TOKEN_FILE)
     client = CanvasClient()
+    client.get_semester_plan("21176")
     client.run(token)
